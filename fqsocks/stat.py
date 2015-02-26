@@ -101,7 +101,7 @@ class Counter(object):
             bytes += sum(b for _, b in pending_tx_events)
         if not bytes:
             return 0, 0, 0
-        return bytes, seconds, bytes / (seconds * 1000)
+        return bytes, seconds, bytes / (seconds * 1000+1.0)
 
     def close(self):
         if not self.closed_at:
