@@ -4,7 +4,7 @@ import dpkt
 import logging
 import random
 import re
-import fqlan
+#import fqlan
 
 LOGGER = logging.getLogger(__name__)
 SO_ORIGINAL_DST = 80
@@ -19,9 +19,11 @@ default_interface_ip_cache = None
 def get_default_interface_ip():
     global default_interface_ip_cache
     if not default_interface_ip_cache:
-        default_interface_ip_cache = fqlan.get_default_interface_ip()
+        myaddr = socket.gethostbyname(socket.gethostname())
+        default_interface_ip_cache = '127.0.0.1'
     return default_interface_ip_cache
 
+#    return '127.0.0.1'
 
 def create_tcp_socket(server_ip, server_port, connect_timeout):
     sock = SPI['create_tcp_socket'](server_ip, server_port, connect_timeout)

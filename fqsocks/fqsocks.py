@@ -6,7 +6,7 @@ import logging.handlers
 import sys
 import argparse
 import httplib
-import fqlan
+#import fqlan
 import fqdns
 
 import gevent.server
@@ -18,7 +18,7 @@ import networking
 from .gateways import proxy_client
 from .gateways import tcp_gateway
 from .gateways import http_gateway
-from .pages import lan_device
+#from .pages import lan_device
 from .pages import upstream
 from . import config_file
 
@@ -88,6 +88,7 @@ def setup_logging(log_level, log_file=None):
 
 
 def init_config(argv):
+    argv = argv[1:]
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument('--tcp-gateway-listen')
     argument_parser.add_argument('--http-gateway-listen')
@@ -118,6 +119,7 @@ def init_config(argv):
     argument_parser.add_argument('--google-scrambler', dest='google_scrambler_enabled', action='store_true')
     argument_parser.add_argument('--no-google-scrambler', dest='google_scrambler_enabled', action='store_false')
     argument_parser.set_defaults(google_scrambler_enabled=None)
+    print argv    
     args = argument_parser.parse_args(argv)
     config_file.cli_args = args
     config = config_file.read_config()
@@ -144,7 +146,6 @@ def init_config(argv):
     http_gateway.LISTEN_IP, http_gateway.LISTEN_PORT = config['http_gateway']['ip'], config['http_gateway']['port']
     tcp_gateway.LISTEN_IP, tcp_gateway.LISTEN_PORT = config['tcp_gateway']['ip'], config['tcp_gateway']['port']
     httpd.LISTEN_IP, httpd.LISTEN_PORT = config['http_manager']['ip'], config['http_manager']['port']
-    networking.DNS_HANDLER.test_upstreams()
 
 def main(argv=None):
     if argv:
@@ -186,4 +187,5 @@ def main(argv=None):
 # TODO add vpn as proxy (setup vpn, mark packet, mark based routing)
 
 if '__main__' == __name__:
-    main(sys.argv[1:])
+  print 'meow'
+  main(sys.argv[1:])

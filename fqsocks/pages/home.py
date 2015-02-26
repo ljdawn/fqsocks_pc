@@ -18,13 +18,21 @@ from . import upstream
 HOME_HTML_FILE = os.path.join(os.path.dirname(__file__), '..', 'templates', 'home.html')
 LOGGER = logging.getLogger(__name__)
 
+
+def _is_root():
+    if hasattr(os,'getuid'):
+        return 0 == os.getuid()
+    else:
+        return True
+
+
 @httpd.http_handler('GET', '')
 @httpd.http_handler('GET', 'home')
 def home_page(environ, start_response):
     with open(HOME_HTML_FILE) as f:
         template = jinja2.Template(unicode(f.read(), 'utf8'))
     start_response(httplib.OK, [('Content-Type', 'text/html')])
-    is_root = 0 == os.getuid()
+    is_root = _is_root()
     args = dict(
         _=environ['select_text'],
         domain_name=environ.get('HTTP_HOST') or '127.0.0.1:2515',
