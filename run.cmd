@@ -1,0 +1,1 @@
+python -m fqsocks --config-file config.conf
